@@ -17,13 +17,13 @@ import { MatIcon } from '@angular/material/icon';
   styleUrls: ['./pokemon-details.component.scss']
 })
 export class PokemonDetailsComponent implements OnInit {
-  currentIndex: number = 0; // Current Pokémon ID
-  pokemons: Pokemon[] = []; // Array to hold Pokémon data
-  pokemonIdOrName!: number | undefined; // Pokémon ID or name
-  pokemonDetails: PokemonCharacteristic | undefined; // Pokémon characteristics
-  foundPokemon: any; // Current Pokémon details
-  abilities!: string; // Abilities string
-  pokemonSpecies: PokemonSpecies | undefined; // Pokémon species details
+  currentIndex: number = 0;
+  pokemons: Pokemon[] = [];
+  pokemonIdOrName!: number | undefined;
+  pokemonDetails: PokemonCharacteristic | undefined;
+  foundPokemon: any;
+  abilities!: string;
+  pokemonSpecies: PokemonSpecies | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,11 +36,10 @@ export class PokemonDetailsComponent implements OnInit {
       this.pokemons = data;
       console.log('full data', this.pokemons);
       
-      // Set the current index based on the initial route parameter
       this.route.paramMap.subscribe(params => {
         this.pokemonIdOrName = params.get('id') ? Number(params.get('id')) : undefined;
         if (this.pokemonIdOrName !== undefined) {
-          this.currentIndex = this.pokemonIdOrName; // Use ID as the current index
+          this.currentIndex = this.pokemonIdOrName;
           this.loadPokemon(this.currentIndex);
         }
       });
