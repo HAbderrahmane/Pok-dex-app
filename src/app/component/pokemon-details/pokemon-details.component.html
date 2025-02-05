@@ -1,0 +1,70 @@
+@if(foundPokemon && pokemonDetails) {
+  <div class="bg-white rounded-lg shadow-md overflow-hidden w-full mx-auto">
+    <div class="relative">
+      <div [ngStyle]="{'background-color': pokemonSpecies?.color?.name, 'opacity': '0.5'}" class="absolute inset-0 z-0"></div>
+      <div class="relative z-10 flex flex-col justify-center items-center p-4">
+        <h2 class="text-xl font-bold text-center text-white">{{ foundPokemon.name }}</h2>
+      </div>
+    </div>
+    <div class="p-4 flex flex-col md:flex-row">
+      <button (click)="previousPokemon()" [disabled]="currentIndex <= 1" class="mr-2"><mat-icon>arrow_back_ios</mat-icon></button>
+      
+      <div class="md:w-1/2 flex flex-col items-center">
+        <img [src]="foundPokemon.sprites.front_default" alt="{{ foundPokemon.name }}" class="mx-auto w-48 mb-4">
+
+        <div class="flex flex-wrap justify-center mb-4">
+          @for(type of foundPokemon.types; track type.type.name) {
+            <div class="rounded-lg py-1 px-2 mr-2 mb-2 text-xs"
+                 [ngStyle]="{'background-color': pokemonSpecies?.color?.name, 'opacity': '0.7'}">
+              <p class="text-center text-white">{{ type.type.name }}</p>
+            </div>
+          }
+        </div>
+
+        <div class="text-center mb-2 font-semibold">
+          <p [ngStyle]="{'color': pokemonSpecies?.color?.name}">About</p>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 text-sm mb-4">
+          <div class="border-r border-gray-300 pr-2">
+            <p class="font-bold">Weight:</p>
+            <p>{{ foundPokemon.weight }}</p>
+          </div>
+          <div class="border-r border-gray-300 pr-2">
+            <p class="font-bold">Height:</p>
+            <p>{{ foundPokemon.height }}</p>
+          </div>
+          <div>
+            <p class="font-bold">Abilities:</p>
+            <p>{{ abilities }}</p>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <p class="text-left">{{ pokemonDetails.descriptions[3].description }}</p>
+        </div>
+      </div>
+
+      <button (click)="nextPokemon()" [disabled]="currentIndex >= pokemons.length" class="ml-2"><mat-icon>arrow_forward_ios</mat-icon></button>
+    </div>
+
+    <div class="md:w-1/2 md:pl-4 mt-4 md:mt-0 text-sm">
+      <h3 class="font-bold mb-2" [ngStyle]="{'color': pokemonSpecies?.color?.name}">Base Stats</h3>
+      @if(foundPokemon.stats && pokemonDetails.possible_values) {
+        @for(stat of foundPokemon.stats; track stat.stat.name + '-' + $index) {
+          <div class="mb-2">
+            <p class="font-bold" [ngStyle]="{'color': pokemonSpecies?.color?.name}">{{ getStatName(stat.stat.name) }}: {{ stat.base_stat }}</p>
+            <div class="bg-gray-200 rounded-full h-2">
+              <div class="rounded-full h-2"
+                   [style.width.%]="calculateStatPercentage(stat.base_stat, pokemonDetails.possible_values[$index])"
+                   [ngClass]="{ 'bg-red-500': stat.base_stat < 50,
+                                'bg-yellow-500': stat.base_stat >= 50 && stat.base_stat < 75,
+                                'bg-green-500': stat.base_stat >= 75 }">
+              </div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+}
