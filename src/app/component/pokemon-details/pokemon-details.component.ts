@@ -101,7 +101,7 @@ export class PokemonDetailsComponent implements OnInit {
   }
 
   previousPokemon() {
-    if (this.currentIndex > 1) { // Assuming IDs start from 1
+    if (this.currentIndex > 1) {
       this.currentIndex--;
       this.loadPokemon(this.currentIndex);
     }
